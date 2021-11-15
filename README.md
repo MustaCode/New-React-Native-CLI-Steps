@@ -95,13 +95,50 @@ npx pod-install ios
 ```
 Browse to node_modules/react-native-vector-icons and drag the folder Fonts (or just the ones you want) to your project in Xcode.
 
+![vector1](https://user-images.githubusercontent.com/53459406/141814204-5cb51457-41d4-4457-b0ce-5c235d177d5e.png)
+
+Edit Info.plist and add a property called Fonts provided by application and type in the files you just added.
+
+![image](https://user-images.githubusercontent.com/53459406/141820996-522696f0-7c79-4366-8653-a79645a00dda.png)
+
+Remove the font from Bundle Resources to avoid multiple command (references) error.
+
+![image](https://user-images.githubusercontent.com/53459406/141821088-a39cd404-d909-4fcd-8c74-b71fd1f1548b.png)
+
+For android, edit android/app/build.gradle :
+```
+apply from: “../../node_modules/react-native-vector-icons/fonts.gradle"
+```
+
+Add this to info.plist:
+```
+<key>UIAppFonts</key>
+    <array>
+        <string>AntDesign.ttf</string>
+        <string>Entypo.ttf</string>
+        <string>EvilIcons.ttf</string>
+        <string>Feather.ttf</string>
+        <string>FontAwesome.ttf</string>
+        <string>FontAwesome5_Brands.ttf</string>
+        <string>FontAwesome5_Regular.ttf</string>
+        <string>FontAwesome5_Solid.ttf</string>
+        <string>Foundation.ttf</string>
+        <string>Ionicons.ttf</string>
+        <string>MaterialIcons.ttf</string>
+        <string>MaterialCommunityIcons.ttf</string>
+        <string>SimpleLineIcons.ttf</string>
+        <string>Octicons.ttf</string>
+        <string>Zocial.ttf</string>
+        <string>Fontisto.ttf</string>
+    </array>
+```
 
 <a name="elements"/>
 
 ## React Native Elements
 
 ```
-npx react-native init “elements”
+npm install react-native-elements
 ```
 
 <a name="nativebase"/>
@@ -109,5 +146,24 @@ npx react-native init “elements”
 ## Native Base
 
 ```
-npx react-native init “elements”
+npm install native-base react-native-svg styled-components styled-system react-native-safe-area-context
+```
+```
+npx pod-install ios
+```
+Edit Index.js
+```
+import React from 'react';
+import {AppRegistry} from 'react-native';
+import App from './App';
+import {name as appName} from './app.json';
+import {NativeBaseProvider} from 'native-base';
+
+const ProjectName = () => (
+  <NativeBaseProvider>
+    <App />
+  </NativeBaseProvider>
+);
+
+AppRegistry.registerComponent(appName, () => ProjectName);
 ```
