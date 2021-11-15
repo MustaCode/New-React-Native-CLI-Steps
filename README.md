@@ -10,6 +10,7 @@ A guideline for creating a new React Native CLI project
 4. [RN Vector Icons](#icons)
 5. [RN Elements](#elements)
 6. [RN NativeBase](#nativebase)
+7. [RN Functional Component Template](#template)
 
 <a name="new"/>
 
@@ -166,4 +167,23 @@ const ProjectName = () => (
 );
 
 AppRegistry.registerComponent(appName, () => ProjectName);
+```
+
+<a name="template"/>
+
+## React Native Functional Component Template
+
+```
+import React from 'react';
+import {SafeAreaView, View, Text} from 'react-native';
+
+const ComponentName = props => {
+  return (
+    <SafeAreaView>
+      <Text>Hello World!</Text>
+    </SafeAreaView>
+  );
+};
+
+export default ComponentName;
 ```
