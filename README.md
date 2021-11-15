@@ -2,6 +2,8 @@
 A guideline for creating a new React Native CLI project
 
 ## :sparkles: React Native Essential Libraries
+Here are a list of React Native libraries needed to start any project.
+Follow the steps to install all the libraries smoothly in both Android and iOS.
 
 ## :open_book: Table of Contents  
 1. [Create a project](#new)  
