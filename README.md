@@ -181,8 +181,8 @@ import {SafeAreaView, View, Text} from 'react-native';
 
 const ComponentName = props => {
   return (
-    <SafeAreaView>
-      <Text>Hello World!</Text>
+    <SafeAreaView style={{flex: 1, width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFF'}}>
+      <Text>Home Screen!</Text>
     </SafeAreaView>
   );
 };
