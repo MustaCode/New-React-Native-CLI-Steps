@@ -14,6 +14,11 @@ Follow the steps to install all the libraries smoothly in both Android and iOS.
 6. [RN Elements](#elements)
 7. [RN NativeBase](#nativebase)
 8. [RN Functional Component Template](#template)
+9. [RN Redux](#redux)
+10. [RN Async Storage](#storage)
+11. [RN WebView](#webview)
+12. [Date fns](#date)
+13. [RN Image Crop Picker](#image)
 
 <a name="new"/>
 
@@ -266,4 +271,118 @@ const ComponentName = props => {
 };
 
 export default ComponentName;
+```
+
+<a name="redux"/>
+
+## React Native Redux
+
+```
+npm install redux react-redux --save
+```
+```
+npm install redux-thunk
+```
+In `Index.js` add:
+```
+import React from ‘react'
+import { Provider } from 'react-redux';
+import configureStore from './src/store/ConfigureStore';
+const store = configureStore();
+const RNRedux = () => (
+    <Provider store={store}>
+            <App />
+    </Provider>
+
+AppRegistry.registerComponent(appName, () => RNRedux);
+```
+Create `ConfigureStore.js` in store folder and add:
+```
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+
+import OrdersReducer from './reducers/OrdersReducer'
+
+const rootReducer = combineReducers({
+    orders: OrdersReducer,
+});
+
+const configureStore = () => {
+    return createStore(rootReducer, applyMiddleware(thunk));
+}
+export default configureStore;
+```
+Create a Reducer `SomethingReducer.js` and add:
+```
+import {} from '../actions/ActionTypes'
+
+const initialState = {
+
+}
+
+const Reducer = (state = initialState, action) => {
+    switch (action.type) {
+        default:
+            return state;
+    }
+}
+export default Reducer
+```
+Create `ActionTypes.js` and add:
+```
+//ORDERS
+export const ADD_ORDER = ‘ADD_ORDER';
+```
+Create Action `Index.js` and add:
+```
+export {
+  addOrder
+} from ‘./Orders'
+```
+
+<a name="storage"/>
+
+## React Native Async Storage
+
+```
+npm install @react-native-async-storage/async-storage
+```
+```
+npx pod-install ios
+```
+
+<a name="webview"/>
+
+## React Native WebView
+
+```
+npm install --save react-native-webview
+```
+```
+npx pod-install ios
+```
+Android - react-native-webview version >=6.X.X: Please make sure AndroidX is enabled in your project by editting `android/gradle.properties` and adding 2 lines:
+```
+org.gradle.jvmargs=-Xmx4g -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
+android.useAndroidX=true
+android.enableJetifier=true
+```
+
+<a name="date"/>
+
+## Date fns
+
+```
+npm install date-fns --save
+```
+
+<a name="image"/>
+
+## React Native Image Crop Picker
+
+```
+npm i react-native-image-crop-picker --save
+```
+```
+npx pod-install ios
 ```
