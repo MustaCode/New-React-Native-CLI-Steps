@@ -7,19 +7,49 @@ Follow the steps to install all the libraries smoothly in both Android and iOS.
 
 ## :open_book: Table of Contents  
 1. [Create a project](#new)  
-2. [RN Navigation](#navigation)  
-3. [RN SVG Transformer](#svg)  
-4. [RN Vector Icons](#icons)
-5. [RN Elements](#elements)
-6. [RN NativeBase](#nativebase)
-7. [RN Functional Component Template](#template)
+2. [Change Engine](#engine)
+3. [RN Navigation](#navigation)  
+4. [RN SVG Transformer](#svg)  
+5. [RN Vector Icons](#icons)
+6. [RN Elements](#elements)
+7. [RN NativeBase](#nativebase)
+8. [RN Functional Component Template](#template)
 
 <a name="new"/>
 
 ## Create a New React Native Project
-
 ```
 npx react-native init “Project Name”
+```
+<a name="engine"/>
+
+## Change Project Engine
+### Android
+Edit your `android/app/build.gradle` file and make the change illustrated below:
+```
+ project.ext.react = [
+      entryFile: "index.js",
+-     enableHermes: false  // clean and rebuild if changing
++     enableHermes: true  // clean and rebuild if changing
+  ]
+```
+Next, if you've already built your app at least once, clean the build:
+```
+cd android && ./gradlew clean
+```
+### iOS
+To enable Hermes for iOS, edit your `ios/Podfile` file and make the change illustrated below:
+```
+   use_react_native!(
+     :path => config[:reactNativePath],
+     # to enable hermes on iOS, change `false` to `true` and then install pods
+-    :hermes_enabled => false
++    :hermes_enabled => true
+   )
+```
+Next, install the Hermes pods:
+```
+cd ios && pod install
 ```
 <a name="navigation"/>
 
@@ -37,20 +67,65 @@ npx pod-install ios
 ```
 npm install @react-navigation/native-stack
 ```
-```
-npm install @react-navigation/bottom-tabs
-```
-In MainActivity.js add:
+In `MainActivity.java` add:
 ```
 import android.os.Bundle; //Navigation
 ```
-> In the bottom Add
+In the bottom add:
 ```
 // Navigation
   @Override
   protected void onCreate(Bundle savedInstanceState) {
   super.onCreate(null);
   }
+```
+### Drawer
+```
+npm install @react-navigation/drawer
+```
+```
+npm install react-native-gesture-handler react-native-reanimated
+```
+Add Reanimated's babel plugin to your `babel.config.js`:
+```
+  module.exports = {
+      ...
+      plugins: [
+          ...
+          'react-native-reanimated/plugin',
+      ],
+  };
+```
+Plug Reanimated in `MainApplication.java`:
+```
+  import com.facebook.react.bridge.JSIModulePackage; // <- add
+  import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
+  ...
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+  ...
+
+      @Override
+      protected String getJSMainModuleName() {
+        return "index";
+      }
+
+      @Override
+      protected JSIModulePackage getJSIModulePackage() {
+        return new ReanimatedJSIModulePackage(); // <- add
+      }
+    };
+  ...
+```
+To finalize installation of `react-native-gesture-handler`, add the following at the top (make sure it's at the top and there's nothing else before it) of your entry file, such as `index.js` or `App.js`:
+```
+import 'react-native-gesture-handler';
+```
+```
+npx pod-install ios
+```
+### Bottom Tabs
+```
+npm install @react-navigation/bottom-tabs
 ```
 
 <a name="svg"/>
@@ -110,7 +185,7 @@ Remove the font from Bundle Resources to avoid multiple command (references) err
 
 For android, edit android/app/build.gradle :
 ```
-apply from: “../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 ```
 
 Add this to info.plist:
@@ -147,9 +222,12 @@ npm install react-native-elements
 <a name="nativebase"/>
 
 ## Native Base
-
+If safe-area-context exists then:
 ```
-npm install native-base react-native-svg styled-components styled-system react-native-safe-area-context
+npm uninstall react-native-safe-area-context
+```
+```
+npm install native-base react-native-svg react-native-safe-area-context
 ```
 ```
 npx pod-install ios
